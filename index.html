@@ -575,8 +575,8 @@
       display: block;
     }
 
-    .fb-fallback {
-      display: none;
+    .widget-fallback {
+      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -585,9 +585,9 @@
       gap: 0.8rem;
     }
 
-    .fb-fallback .fb-icon { font-size: 2.5rem; }
-    .fb-fallback p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
-    .fb-fallback a {
+    .widget-fallback .fallback-icon { font-size: 2.5rem; }
+    .widget-fallback p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+    .widget-fallback a {
       display: inline-block;
       background: #1877f2;
       color: #fff;
@@ -1052,9 +1052,8 @@
               title="Facebook stránka Obecní restaurace Úsov">
             </iframe>
 
-            <!-- Fallback — zobrazí se jen pokud iframe selže (blokátor reklam apod.) -->
-            <div class="fb-fallback" id="fb-fallback">
-              <div class="fb-icon">📘</div>
+            <div class="widget-fallback" id="widget-fallback">
+              <div class="fallback-icon">📘</div>
               <p>
                 Nepodařilo se načíst Facebook widget.<br>
                 Denní menu najdeš přímo na naší stránce:
@@ -1381,23 +1380,23 @@
       });
     });
 
-    // ── Facebook iframe fallback ──
+    // ── Facebook iframe  ──
     const fbIframe = document.getElementById('fb-iframe');
-    const fbFallback = document.getElementById('fb-fallback');
+    const fb = document.getElementById('fb-');
     if (fbIframe) {
       fbIframe.addEventListener('error', () => {
         fbIframe.style.display = 'none';
-        if (fbFallback) {
-          fbFallback.style.display = 'flex';
+        if (fb) {
+          fb.style.display = 'flex';
         }
       });
-      // Timeout fallback — pokud se iframe nenačte za 8s, ukaž záložní tlačítko
+      // Timeout  — pokud se iframe nenačte za 8s, ukaž záložní tlačítko
       setTimeout(() => {
         try {
           const doc = fbIframe.contentDocument || fbIframe.contentWindow.document;
           if (!doc || doc.body.innerHTML === '') {
             fbIframe.style.display = 'none';
-            if (fbFallback) fbFallback.style.display = 'flex';
+            if (fb) fb.style.display = 'flex';
           }
         } catch(e) {
           // cross-origin — iframe běží, to je ok
